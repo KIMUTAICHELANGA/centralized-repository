@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, ConfigurationError
 import logging
 import os
-from dotenv import load_dotenv  # New import for environment variables
+from dotenv import load_dotenv
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -18,7 +18,7 @@ class MongoDBConnection:
         :param database_name: Name of the database to connect to.
         """
         self.uri = uri or os.getenv("MONGODB_URI")
-        self.database_name = database_name or os.getenv("MONGODB_DATABASE")
+        self.database_name = database_name or os.getenv("MONGODB_DB_NAME")
         self.client = None
         self.database = None
 
@@ -64,7 +64,7 @@ class MongoDBConnection:
 
 if __name__ == "__main__":
     load_dotenv()  # Load environment variables
-    mongo_connection = MongoDBConnection(database_name=os.getenv("MONGODB_DATABASE"))
+    mongo_connection = MongoDBConnection()
     mongo_connection.connect()
 
     # Example data to insert

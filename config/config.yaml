@@ -21,11 +21,7 @@ mongodb:
   database: "central_repository"
   collection: "knowledge_products"
 
-# AWS S3 Configuration (if used)
-s3:
-  access_key: "your_aws_access_key"
-  secret_key: "your_aws_secret_key"
-  bucket_name: "your_s3_bucket_name"
+
 
 # Ingestion Settings
 ingestion:

@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "central repository"
+version = "1"
+description = "Collecting data from the different sources into a centralized repository"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8, <3.12.3"
+requests = "2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

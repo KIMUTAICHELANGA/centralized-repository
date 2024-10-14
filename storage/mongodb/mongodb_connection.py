@@ -1,4 +1,3 @@
-# mongodb_connection.py
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, ConfigurationError
 import logging
@@ -34,6 +33,23 @@ class MongoDBConnection:
         except ConfigurationError as e:
             logger.error("Configuration error: %s", e)
 
+    def create_collections(self):
+        """Create necessary collections in the database."""
+        collections = [
+            "users",
+            "knowledge_products",
+            "expert_connections",
+            "search_queries",
+            "feedback",
+            "analytics"
+        ]
+        for collection in collections:
+            if collection not in self.database.list_collection_names():
+                self.database.create_collection(collection)
+                logger.info(f"Collection '{collection}' created.")
+            else:
+                logger.info(f"Collection '{collection}' already exists.")
+
     def insert_to_mongodb(self, collection_name, data):
         """
         Insert data into a specified MongoDB collection.
@@ -67,6 +83,9 @@ if __name__ == "__main__":
     mongo_connection = MongoDBConnection()
     mongo_connection.connect()
 
+    # Create collections
+    mongo_connection.create_collections()
+
     # Example data to insert
     example_data = {
         "title": "Sample Document",
@@ -75,7 +94,7 @@ if __name__ == "__main__":
         "source": "Example Source"
     }
 
-    mongo_connection.insert_to_mongodb('your_collection_name', example_data)
+    mongo_connection.insert_to_mongodb('knowledge_products', example_data)
 
     # Close the connection when done
     mongo_connection.close()

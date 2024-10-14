@@ -1,8 +1,8 @@
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import datetime, timezone
 
 # MongoDB connection
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb+srv://briankimu97:<oRdjnfn3xNy8xcGw>@cluster0.zbx2b.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')  # Replace <db_password> with your actual password
 db = client['openalex']  # Database name
 
 # Define collections
@@ -25,7 +25,7 @@ sample_publication = {
     "url": "http://example.com/sample-publication",
     "tags": ["sample", "publication"],
     "related_concepts": [],  # This will hold ObjectIds of related concepts
-    "created_at": datetime.utcnow().isoformat()  # Ensure this field matches schema requirement
+    "created_at": datetime.now(timezone.utc).isoformat()  # Use timezone-aware datetime
 }
 
 # Sample author document
@@ -35,7 +35,7 @@ sample_author = {
     "orcid": "0000-0001-2345-6789",  # Optional ORCID field
     "affiliation": [],  # This will hold ObjectIds of institutions (should be updated with actual ObjectIds)
     "publications": [],  # This will hold ObjectIds of related publications
-    "created_at": datetime.utcnow().isoformat()  # Ensure created_at is in ISO format
+    "created_at": datetime.now(timezone.utc).isoformat()  # Use timezone-aware datetime
 }
 
 # Sample institution document
@@ -44,7 +44,7 @@ sample_institution = {
     "name": "Sample Institution",
     "country": "Sample Country",  # Country name or null if unknown
     "publications": [],  # This will hold ObjectIds of related publications
-    "created_at": datetime.utcnow().isoformat()  # Ensure created_at is in ISO format
+    "created_at": datetime.now(timezone.utc).isoformat()  # Use timezone-aware datetime
 }
 
 # Sample concept document
@@ -52,7 +52,7 @@ sample_topics = {
     "_id": "concept_901234",  # Unique identifier for the concept
     "name": "Sample Topics",
     "publications": [],  # This will hold ObjectIds of related publications
-    "created_at": datetime.utcnow().isoformat()  # Ensure created_at is in ISO format
+    "created_at": datetime.now(timezone.utc).isoformat()  # Use timezone-aware datetime
 }
 
 # Insert sample documents into respective collections

@@ -19,7 +19,6 @@ def fetch_authors(filters=None, limit=10):
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36',
-
         'mailto': 'briankimu97@gmail.com'
     }
     
@@ -30,13 +29,16 @@ def fetch_authors(filters=None, limit=10):
 
 # Function to save data to the specified folder
 def save_data(data, folder_name):
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    file_path = f'data/raw/{folder_name}/data_{timestamp}.json'
+    # Create the directory if it doesn't exist
+    os.makedirs(f'data/raw/{folder_name}', exist_ok=True)
+    
+    # Save data as rawtopics.json
+    file_path = f'data/raw/{folder_name}/rawauthors.json'
     
     with open(file_path, 'w') as f:
         json.dump(data, f, indent=4)
     
-    print(f"Authors data saved in {file_path}")
+    print(f"{folder_name.capitalize()} data saved in {file_path}")
 
 # Main function to extract and save authors
 def main():

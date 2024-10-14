@@ -4,7 +4,7 @@ from datetime import datetime
 from jsonschema import validate, ValidationError
 
 # Create the processed directories if they don't exist
-for folder in ['publications', 'authors', 'institutions', 'concepts']:
+for folder in ['publications', 'authors', 'institutions', 'topics']:  # Change 'concepts' to 'topics'
     os.makedirs(f'data/processed/{folder}', exist_ok=True)
 
 # Function to load raw data from respective folders
@@ -34,8 +34,8 @@ def clean_and_transform_publications(works):
             "doi": work.get("doi", "N/A"),
             "publisher": work.get("host_venue", {}).get("display_name", "N/A"),
             "url": work.get("id", "N/A"),
-            "tags": [concept["display_name"] for concept in work.get("concepts", [])],
-            "related_concepts": [concept["display_name"] for concept in work.get("concepts", [])],
+            "tags": [topics["display_name"] for topics in work.get("topics", [])],  # Change 'concepts' to 'topics'
+            "related_topics": [topics["display_name"] for topics in work.get("topics", [])],  # Change 'concepts' to 'topics'
             "created_at": datetime.utcnow().isoformat()
         }
         cleaned_data.append(publication_data)
@@ -78,19 +78,19 @@ def clean_and_transform_institutions(works):
 
     return cleaned_data
 
-# Clean and transform Concepts
-def clean_and_transform_concepts(works):
+# Clean and transform Topics
+def clean_and_transform_topics(works):
     cleaned_data = []
 
     for work in works:
-        for concept in work.get("concepts", []):
-            concept_data = {
-                "_id": concept['id'],
-                "name": concept['display_name'],
+        for topic in work.get("topics", []):  # Change 'concept' to 'topic'
+            topic_data = {  # Change variable name from 'concept_data' to 'topic_data'
+                "_id": topic['id'],  # Change variable from 'topics' to 'topic'
+                "name": topic['display_name'],  # Change variable from 'topics' to 'topic'
                 "publications": [work.get("id", "N/A")],
                 "created_at": datetime.utcnow().isoformat()
             }
-            cleaned_data.append(concept_data)
+            cleaned_data.append(topic_data)  # Change variable from 'concept_data' to 'topic_data'
 
     return cleaned_data
 
@@ -136,4 +136,4 @@ if __name__ == "__main__":
     process_data('publications', clean_and_transform_publications)
     process_data('authors', clean_and_transform_authors)
     process_data('institutions', clean_and_transform_institutions)
-    process_data('concepts', clean_and_transform_concepts)
+    process_data('topics', clean_and_transform_topics)  # Change 'concepts' to 'topics'

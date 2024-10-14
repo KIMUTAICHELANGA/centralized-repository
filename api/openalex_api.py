@@ -31,22 +31,38 @@ class OpenAlexAPI:
         """
         Fetch a single entity by its ID from the OpenAlex API.
 
-        :param entity_id: The ID of the entity to fetch.
+        :param entity_id: The ID of the entity to fetch. This can be an OpenAlex ID,
+                          DOI, ORCID, or any other supported ID.
         :return: JSON response for the entity or None if an error occurs.
         """
+        # Determine the correct endpoint based on the entity_id format
+        if entity_id.startswith("https://openalex.org/"):
+            # If it's an OpenAlex URL, extract the ID
+            entity_id = entity_id.split("/")[-1]
+        elif entity_id.startswith("https://doi.org/"):
+            # If it's a DOI, use it directly
+            return self.fetch_data(f'works/{entity_id}')
+        elif entity_id.startswith("https://orcid.org/"):
+            # If it's an ORCID, use it directly
+            return self.fetch_data(f'authors/{entity_id}')
+        # Add other ID types as needed (e.g., ISSN, ROR)
+        elif entity_id.startswith("ror:") or entity_id.startswith("issn:"):
+            # Assuming we're using ROR or ISSN
+            return self.fetch_data(f'institutions/{entity_id}')
+
+        # Fallback: assuming it's an OpenAlex ID if nothing else matches
         return self.fetch_data(f'works/{entity_id}')
 
-    def get_list_of_entities(self, query):
-        """
-        Fetch a list of entities based on a query.
+    def get_list_of_entities(self, entity_name, **params):
+    """
+    Fetch a list of entities based on the entity type and optional parameters.
 
-        :param query: The query string to search for entities.
-        :return: JSON response with the list of entities or None if an error occurs.
-        """
-        params = {'q': query}
-        return self.fetch_data('works', params=params)
+    :param entity_name: The type of entity to fetch (e.g., 'works', 'authors', 'topics', etc.).
+    :param params: Optional query parameters to filter, search, and sort the results.
+    :return: JSON response with the list of entities or None if an error occurs.
+    """
+    return self.fetch_data(entity_name, params=params)
 
-    def get_group_of_entities(self, group_id):
         """
         Fetch a group of entities based on a group ID.
 

@@ -1,0 +1,34 @@
+# config.yaml
+
+# API Configuration
+api:
+  openalex:
+    base_url: "https://api.openalex.org"
+    api_key: "your_openalex_api_key_here"
+  orcid:
+    base_url: "https://pub.orcid.org/v3.0/"
+    api_key: "your_orcid_api_key_here"
+  africannexus:
+    base_url: "https://api.africannexus.org"
+    api_key: "your_africannexus_api_key_here" # Optional if available
+  dspace:
+    base_url: "https://dspace.yourinstitution.edu/rest"
+    api_key: "your_dspace_api_key_here" # Optional if available
+
+# MongoDB Configuration
+mongodb:
+  uri: "mongodb://localhost:27017"
+  database: "central_repository"
+  collection: "knowledge_products"
+
+# AWS S3 Configuration (if used)
+s3:
+  access_key: "your_aws_access_key"
+  secret_key: "your_aws_secret_key"
+  bucket_name: "your_s3_bucket_name"
+
+# Ingestion Settings
+ingestion:
+  batch_size: 100          # Number of records to process at a time
+  retry_attempts: 3        # Number of retry attempts for failed requests
+  timeout: 30              # Timeout for API requests in seconds

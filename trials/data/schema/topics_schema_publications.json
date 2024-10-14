@@ -16,7 +16,7 @@
         "type": "array",
         "items": { "type": "string" }
       },
-      "related_concepts": {
+      "related_topics": {
         "type": "array",
         "items": { "type": "string" }
       },

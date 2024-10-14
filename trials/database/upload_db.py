@@ -10,7 +10,7 @@ db = client['openalex']  # Database name
 publications_collection = db['publications']
 authors_collection = db['authors']
 institutions_collection = db['institutions']
-concepts_collection = db['concepts']
+topics_collection = db['topics']
 
 # Path to the processed data folder
 data_folder = os.path.join('data', 'processed')
@@ -44,7 +44,7 @@ def upload_all_data():
     upload_data_from_subfolder('publications', publications_collection)
     upload_data_from_subfolder('authors', authors_collection)
     upload_data_from_subfolder('institutions', institutions_collection)
-    upload_data_from_subfolder('concepts', concepts_collection)
+    upload_data_from_subfolder('topics', topics_collection)
 
 if __name__ == "__main__":
     upload_all_data()

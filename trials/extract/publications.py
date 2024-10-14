@@ -1,32 +1,43 @@
-from pymongo import MongoClient
+import os
 import json
+import requests
+from datetime import datetime
 
-# MongoDB setup
-client = MongoClient('mongodb://localhost:27017/')
-db = client['openalex_db']
-publications_collection = db['Publications']
+# Create the necessary directories for storing raw data
+os.makedirs('data/raw/publications', exist_ok=True)
 
-# Function to insert publication data into MongoDB
-def insert_publications(file_path):
-    with open(file_path, 'r') as f:
-        publications_data = json.load(f)
-        
-    for publication in publications_data:
-        publication_record = {
-            "_id": publication['id'],
-            "title": publication.get('title', ''),
-            "abstract": publication.get('abstract', ''),
-            "publication_date": publication.get('publication_date', ''),
-            "authors": [author['display_name'] for author in publication.get('authorships', [])],
-            "doi": publication.get('doi', ''),
-            "publisher": publication.get('host_venue', {}).get('display_name', ''),
-            "url": publication.get('id', ''),
-            "tags": publication.get('concepts', []),
-            "related_concepts": [concept['display_name'] for concept in publication.get('concepts', [])]
-        }
-        
-        publications_collection.insert_one(publication_record)
-    print("Publications successfully inserted into MongoDB.")
+# Function to fetch publications from OpenAlex API
+def fetch_publications(limit=10):
+    url = "https://api.openalex.org/works"
+    params = {
+        "page": 1,
+        "per_page": limit
+    }
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36',
 
-# Call the function after fetching data
-insert_publications('data/raw/openalex_data_20211014_103045.json')
+        'mailto': 'briankimu97@gmail.com'
+    }
+    
+    response = requests.get(url, params=params, headers=headers)
+    response.raise_for_status()
+    
+    return response.json()['results']
+
+# Function to save data to the specified folder
+def save_data(data, folder_name):
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    file_path = f'data/raw/{folder_name}/data_{timestamp}.json'
+    
+    with open(file_path, 'w') as f:
+        json.dump(data, f, indent=4)
+    
+    print(f"Publications data saved in {file_path}")
+
+# Main function to extract and save publications
+def main():
+    publications = fetch_publications(limit=10)
+    save_data(publications, 'publications')
+
+if __name__ == "__main__":
+    main()

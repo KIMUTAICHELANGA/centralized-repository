@@ -9,7 +9,7 @@ db = client['openalex']  # Database name
 publications_collection = db['publications']
 authors_collection = db['authors']
 institutions_collection = db['institutions']
-concepts_collection = db['concepts']
+topics_collection = db['topics']
 
 # Sample documents for each collection matching the schema
 
@@ -48,9 +48,9 @@ sample_institution = {
 }
 
 # Sample concept document
-sample_concept = {
+sample_topics = {
     "_id": "concept_901234",  # Unique identifier for the concept
-    "name": "Sample Concept",
+    "name": "Sample Topics",
     "publications": [],  # This will hold ObjectIds of related publications
     "created_at": datetime.utcnow().isoformat()  # Ensure created_at is in ISO format
 }
@@ -59,7 +59,7 @@ sample_concept = {
 publications_id = publications_collection.insert_one(sample_publication).inserted_id
 authors_id = authors_collection.insert_one(sample_author).inserted_id
 institutions_id = institutions_collection.insert_one(sample_institution).inserted_id
-concepts_id = concepts_collection.insert_one(sample_concept).inserted_id
+topics_id = topics_collection.insert_one(sample_topics).inserted_id
 
 # Print confirmation
-print(f"Sample documents inserted with IDs:\nPublication ID: {publications_id}\nAuthor ID: {authors_id}\nInstitution ID: {institutions_id}\nConcept ID: {concepts_id}")
+print(f"Sample documents inserted with IDs:\nPublication ID: {publications_id}\nAuthor ID: {authors_id}\nInstitution ID: {institutions_id}\nTopics ID: {topics_id}")

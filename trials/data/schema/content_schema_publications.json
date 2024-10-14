@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "properties": {
+      "_id": { "type": "string" },
+      "title": { "type": "string" },
+      "abstract": { "type": "string" },
+      "publication_date": { "type": ["string", "null"], "format": "date" },
+      "authors": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "doi": { "type": "string" },
+      "publisher": { "type": "string" },
+      "url": { "type": "string" },
+      "tags": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "related_concepts": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "created_at": { "type": "string", "format": "date-time" }
+    },
+    "required": ["_id", "title", "authors", "created_at"]
+  }
+  

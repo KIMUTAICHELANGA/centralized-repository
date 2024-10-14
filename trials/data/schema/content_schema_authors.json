@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+      "_id": { "type": "string" },
+      "name": { "type": "string" },
+      "orcid": { "type": "string" },
+      "affiliation": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "publications": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "created_at": { "type": "string", "format": "date-time" }
+    },
+    "required": ["_id", "name", "created_at"]
+  }
+  
